@@ -5,7 +5,6 @@ const Login = ({}) => {
   const btnStyle =
     'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded';
   if (session) {
-    console.log({ user: session.user });
     return (
       <>
         <p>Welcome, {session.user?.email}</p>

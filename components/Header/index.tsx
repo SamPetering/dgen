@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react';
 import { HTMLAttributes } from 'react';
 
 type NavButtonProps = {
@@ -6,6 +7,7 @@ type NavButtonProps = {
 } & HTMLAttributes<HTMLAnchorElement>;
 
 const Header = () => {
+  const { data: session } = useSession();
   const NavButton = ({ children, linkTo, ...props }: NavButtonProps) => (
     <div className="px-2 text-yellow-20">
       <a {...props} href={linkTo}>
@@ -20,9 +22,8 @@ const Header = () => {
       </NavButton>
 
       <div className="flex h-full items-center">
-        {/* <NavButton linkTo="/">degen</NavButton> */}
-        {/* <NavButton linkTo="/">degen</NavButton> */}
-        <NavButton linkTo="/account">account</NavButton>
+        {!session && <NavButton linkTo="/login">login</NavButton>}
+        {!!session && <NavButton linkTo="/account">account</NavButton>}
       </div>
     </div>
   );
