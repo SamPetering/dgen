@@ -23,7 +23,7 @@ const Header = () => {
 
       <div className="flex h-full items-center">
         {!session && <NavButton linkTo="/login">login</NavButton>}
-        {!!session && <NavButton linkTo="/account">account</NavButton>}
+        {!!session && <NavButton linkTo="/profile">profile</NavButton>}
       </div>
     </div>
   );
