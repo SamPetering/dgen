@@ -18,7 +18,7 @@ const Header = () => {
   return (
     <div className="text-yellow-200 bg-yellow-900 w-full h-12 flex justify-between">
       <NavButton linkTo="/" className="font-bold h-full flex items-center px-4">
-        degen
+        dgen
       </NavButton>
 
       <div className="flex h-full items-center">
