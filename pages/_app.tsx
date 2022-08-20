@@ -10,7 +10,9 @@ function MyApp({ Component, pageProps, session }: CustomAppProps) {
   return (
     <SessionProvider session={session}>
       <Header />
-      <Component {...pageProps} />
+      <div className="max-w-screen-lg m-auto">
+        <Component {...pageProps} />
+      </div>
     </SessionProvider>
   );
 }
