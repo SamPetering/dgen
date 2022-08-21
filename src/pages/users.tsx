@@ -1,6 +1,6 @@
 import { trpc } from '../utils/trpc';
 
-const Profile = (props: any) => {
+const Profile = () => {
   const { data, isLoading } = trpc.useQuery(['getUsers']);
   if (isLoading || !data) return <div>loading...</div>;
   return (
@@ -14,7 +14,7 @@ const Profile = (props: any) => {
         <tr key={i}>
           {Object.values(user).map((val, i) => (
             <td className="px-2" key={i}>
-              {JSON.stringify(val).replaceAll('"', '')}
+              {val?.toString()}
             </td>
           ))}
         </tr>

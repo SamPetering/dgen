@@ -5,6 +5,7 @@ import { Session } from 'next-auth';
 import Header from '../components/Header';
 import { withTRPC } from '@trpc/next';
 import { AppRouter } from './api/trpc/[trpc]';
+import superjson from 'superjson';
 
 type CustomAppProps = AppProps & {
   session: Session;
@@ -46,6 +47,7 @@ export default withTRPC<AppRouter>({
      */
     return {
       url: `${getBaseUrl()}/api/trpc`,
+      transformer: superjson,
       /**
        * @link https://react-query-v3.tanstack.com/reference/QueryClient
        */
@@ -55,5 +57,5 @@ export default withTRPC<AppRouter>({
   /**
    * @link https://trpc.io/docs/ssr
    */
-  ssr: true,
+  ssr: false,
 })(MyApp);
