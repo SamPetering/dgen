@@ -1,7 +1,7 @@
 import { trpc } from '../utils/trpc';
 
 const Profile = () => {
-  const { data, isLoading } = trpc.useQuery(['getUsers']);
+  const { data, isLoading } = trpc.useQuery(['users.get-all']);
   if (isLoading || !data) return <div>loading...</div>;
   return (
     <table>
