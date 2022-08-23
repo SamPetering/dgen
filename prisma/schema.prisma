@@ -13,11 +13,21 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  email     String   @unique
+  id        Int          @id @default(autoincrement())
+  createdAt DateTime     @default(now())
+  email     String       @unique
   name      String?
-  role      Role     @default(USER)
+  role      Role         @default(USER)
+  profile   UserProfile?
+}
+
+model UserProfile {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+  height Int?
+  weight Int?
+  age    Int?
 }
 
 enum Role {
