@@ -4,8 +4,8 @@ import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
 import Header from '../components/Header';
 import { withTRPC } from '@trpc/next';
-import { AppRouter } from './api/trpc/[trpc]';
 import superjson from 'superjson';
+import { AppRouter } from '../backend/router';
 
 type CustomAppProps = AppProps & {
   session: Session;
