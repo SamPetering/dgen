@@ -1,6 +1,6 @@
-import * as trpc from '@trpc/server'
-import { prisma } from '../../db/client'
-import * as z from 'zod'
+import * as trpc from '@trpc/server';
+import { prisma } from '../../db/client';
+import * as z from 'zod';
 
 export const userRouter = trpc
     .router()
@@ -11,15 +11,15 @@ export const userRouter = trpc
                     required_error: 'Email is required',
                 })
                 .min(5),
-            name: z.string().optional(),
+            username: z.string().optional(),
         }),
         async resolve({ input }) {
             return await prisma.user.create({
                 data: {
                     email: input.email,
-                    name: input.name,
+                    username: input.username,
                 },
-            })
+            });
         },
     })
     .mutation('updateProfile', {
@@ -41,6 +41,6 @@ export const userRouter = trpc
                     height: input.height,
                     weight: input.weight,
                 },
-            })
+            });
         },
-    })
+    });

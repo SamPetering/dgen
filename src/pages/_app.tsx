@@ -1,15 +1,15 @@
-import '../../styles/globals.css'
-import type { AppProps } from 'next/app'
-import { SessionProvider } from 'next-auth/react'
-import { Session } from 'next-auth'
-import Header from '../components/Header'
-import { withTRPC } from '@trpc/next'
-import superjson from 'superjson'
-import { AppRouter } from '../backend/router'
+import '../../styles/globals.css';
+import type { AppProps } from 'next/app';
+import { SessionProvider } from 'next-auth/react';
+import { Session } from 'next-auth';
+import Header from '../components/Header';
+import { withTRPC } from '@trpc/next';
+import superjson from 'superjson';
+import { AppRouter } from '../backend/router';
 
 type CustomAppProps = AppProps & {
-    session: Session
-}
+    session: Session;
+};
 function MyApp({ Component, pageProps, session }: CustomAppProps) {
     return (
         <SessionProvider session={session}>
@@ -18,25 +18,25 @@ function MyApp({ Component, pageProps, session }: CustomAppProps) {
                 <Component {...pageProps} />
             </div>
         </SessionProvider>
-    )
+    );
 }
 
 function getBaseUrl() {
     if (typeof window !== 'undefined') {
-        return ''
+        return '';
     }
     // reference for vercel.com
     if (process.env.VERCEL_URL) {
-        return `https://${process.env.VERCEL_URL}`
+        return `https://${process.env.VERCEL_URL}`;
     }
 
     // reference for render.com
     if (process.env.RENDER_INTERNAL_HOSTNAME) {
-        return `http://${process.env.RENDER_INTERNAL_HOSTNAME}:${process.env.PORT}`
+        return `http://${process.env.RENDER_INTERNAL_HOSTNAME}:${process.env.PORT}`;
     }
 
     // assume localhost
-    return `http://localhost:${process.env.PORT ?? 3000}`
+    return `http://localhost:${process.env.PORT ?? 3000}`;
 }
 
 export default withTRPC<AppRouter>({
@@ -52,10 +52,10 @@ export default withTRPC<AppRouter>({
              * @link https://react-query-v3.tanstack.com/reference/QueryClient
              */
             // queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
-        }
+        };
     },
     /**
      * @link https://trpc.io/docs/ssr
      */
     ssr: false,
-})(MyApp)
+})(MyApp);

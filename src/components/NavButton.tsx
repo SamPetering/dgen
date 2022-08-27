@@ -1,10 +1,10 @@
-import Link from 'next/link'
+import Link from 'next/link';
 
 type NavButtonProps = {
-    linkTo: string
-    onClick?: () => void
-    text: string
-}
+    linkTo: string;
+    onClick?: () => void;
+    text: string;
+};
 
 export const NavButton = ({ text, linkTo }: NavButtonProps) => (
     <Link href={linkTo}>
@@ -12,4 +12,4 @@ export const NavButton = ({ text, linkTo }: NavButtonProps) => (
             {text}
         </a>
     </Link>
-)
+);

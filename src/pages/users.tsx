@@ -1,82 +1,54 @@
-import { GetServerSideProps } from 'next'
-import { getSession } from 'next-auth/react'
-import { useState } from 'react'
-import { trpc } from '../utils/trpc'
+import { GetServerSideProps } from 'next';
+import { getSession } from 'next-auth/react';
+import { trpc } from '../utils/trpc';
 
 const Profile = () => {
-    const [email, setEmail] = useState<string>('')
-    const [name, setName] = useState<string>('')
-    const { data, isLoading } = trpc.useQuery(['users.get-all'])
-    const utils = trpc.useContext()
-    const addUser = trpc.useMutation(['user.create'])
-    if (isLoading || !data) return <div>loading...</div>
-    const handleOnAddUserClick = () => {
-        addUser.mutate(
-            { name, email },
-            {
-                onSuccess: () => {
-                    utils.invalidateQueries(['users.get-all'])
-                },
-            }
-        )
-        setEmail('')
-        setName('')
-    }
+    const { data, isLoading } = trpc.useQuery(['users.get-all']);
+    if (isLoading || !data) return <div>loading...</div>;
+
     return (
-        <>
-            <table>
-                <tr>
-                    {Object.keys(data[0] ?? {}).map((key) => (
-                        <th key={key}>{key}</th>
-                    ))}
-                </tr>
-                {data.map((user, i) => (
-                    <tr key={i}>
-                        {Object.values(user).map((val, i) => (
-                            <td className="px-2" key={i}>
-                                {val?.toString()}
-                            </td>
+        <div className="overflow-x-auto mt-12 relative sm:rounded-lg">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        {Object.keys(data[0] ?? {}).map((key) => (
+                            <th key={key} className="py-3 px-6">
+                                {key}
+                            </th>
                         ))}
                     </tr>
-                ))}
+                </thead>
+                <tbody>
+                    {data.map((user, i) => (
+                        <tr
+                            key={i}
+                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-600"
+                        >
+                            {Object.values(user).map((val, i) => (
+                                <td className="py-4 px-6" key={i}>
+                                    {val?.toString()}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
             </table>
-            <div className="w-full max-w-xs">
-                <div className="mt-4">
-                    <input
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="name"
-                        type="text"
-                        placeholder="name"
-                        onChange={(e) => setName(e.target.value)}
-                        value={name}
-                    />
-                    <input
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4"
-                        id="email"
-                        type="text"
-                        placeholder="email"
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
-                    />
-                    <button onClick={handleOnAddUserClick}>add user</button>
-                </div>
-            </div>
-        </>
-    )
-}
+        </div>
+    );
+};
 
-export default Profile
+export default Profile;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const session = await getSession(context)
+    const session = await getSession(context);
     if (!session)
         return {
             redirect: {
                 destination: '/login',
                 permanent: false,
             },
-        }
+        };
     return {
         props: { session },
-    }
-}
+    };
+};
