@@ -38,7 +38,7 @@ const Profile = () => {
                         {data.map((user, i) => (
                             <tr
                                 key={i}
-                                className="border-b bg-gray-700 border-gray-600"
+                                className="border-b bg-gray-700 border-gray-600 cursor-pointer hover:bg-gray-600"
                             >
                                 {Object.values(user).map((val, i) => (
                                     <td
