@@ -42,11 +42,12 @@ model User {
   email         String?      @unique
   emailVerified DateTime?
   image         String?
+  created_ts    DateTime     @default(now())
   accounts      Account[]
   sessions      Session[]
-  created_ts    DateTime     @default(now())
   role          Role         @default(USER)
   profile       UserProfile?
+  checkins      Checkin[]
 }
 
 enum Role {
@@ -69,4 +70,13 @@ model UserProfile {
   height Int?
   weight Int?
   age    Int?
+}
+
+model Checkin {
+  id         String   @id @default(cuid())
+  userId     String   @unique
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  created_ts DateTime @default(now())
+  weight     Int
+  image      String?
 }

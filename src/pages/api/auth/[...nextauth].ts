@@ -12,4 +12,10 @@ export default NextAuth({
         }),
     ],
     secret: process.env.JWT_SECRET,
+    callbacks: {
+        async session({ session, user }) {
+            session.user.role = user.role;
+            return session;
+        },
+    },
 });

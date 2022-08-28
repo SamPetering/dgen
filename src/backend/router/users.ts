@@ -3,6 +3,13 @@ import { prisma } from '../../db/client';
 
 export const usersRouter = trpc.router().query('get-all', {
     async resolve() {
-        return await prisma.user.findMany();
+        return await prisma.user.findMany({
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+            },
+        });
     },
 });

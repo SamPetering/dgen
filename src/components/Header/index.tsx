@@ -5,7 +5,7 @@ const Header = () => {
     const { data: session } = useSession();
 
     return (
-        <div className="bg-yellow-500 w-full h-12 flex justify-between">
+        <div className="bg-gray-700 w-full h-12 flex justify-between">
             <NavButton linkTo="/" text="dgen" />
 
             <div className="flex h-full items-center">
