@@ -37,17 +37,19 @@ model Session {
 }
 
 model User {
-  id            String       @id @default(cuid())
-  name          String?
-  email         String?      @unique
-  emailVerified DateTime?
-  image         String?
-  created_ts    DateTime     @default(now())
-  accounts      Account[]
-  sessions      Session[]
-  role          Role         @default(USER)
-  profile       UserProfile?
-  checkins      Checkin[]
+  id              String       @id @default(cuid())
+  name            String?
+  email           String?      @unique
+  emailVerified   DateTime?
+  image           String?
+  created_ts      DateTime     @default(now())
+  accounts        Account[]
+  sessions        Session[]
+  role            Role         @default(USER)
+  profile         UserProfile?
+  checkins        Checkin[]
+  friends         User[]       @relation("UserFriends") //many-to-many self relation
+  friendsRelation User[]       @relation("UserFriends")
 }
 
 enum Role {
@@ -73,9 +75,9 @@ model UserProfile {
 }
 
 model Checkin {
-  id         String   @id @default(cuid())
-  userId     String   @unique
+  id         Int      @id @default(autoincrement())
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String   @unique
   created_ts DateTime @default(now())
   weight     Int
   image      String?

@@ -1,33 +1,30 @@
 import { FC } from 'react';
-import { useSession, signOut, getSession } from 'next-auth/react';
+import { signOut, getSession } from 'next-auth/react';
 import { GetServerSideProps } from 'next';
+import { Session } from 'next-auth';
 
-type Props = {};
+type Props = {
+    session: Session;
+};
 const btnStyle =
     'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded';
-const Profile: FC<Props> = (props) => {
-    const { data: session, status } = useSession();
-    console.log({ session, props });
-    if (status === 'authenticated') {
-        return (
-            <div>
-                <div>Welcome {session.user?.name}</div>
-                {!!session?.user?.image && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                        src={session.user?.image}
-                        alt=""
-                        style={{ borderRadius: '50px' }}
-                    />
-                )}
-                <button className={btnStyle} onClick={() => signOut()}>
-                    Sign out
-                </button>
-            </div>
-        );
-    } else {
-        return <div>you are not signed in</div>;
-    }
+const Profile: FC<Props> = ({ session }) => {
+    return (
+        <div>
+            <div>Welcome {session?.user?.name}</div>
+            {!!session?.user?.image && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                    src={session.user?.image}
+                    alt=""
+                    style={{ borderRadius: '50px' }}
+                />
+            )}
+            <button className={btnStyle} onClick={() => signOut()}>
+                Sign out
+            </button>
+        </div>
+    );
 };
 
 export default Profile;
