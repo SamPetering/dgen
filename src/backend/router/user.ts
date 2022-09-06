@@ -53,4 +53,25 @@ export const userRouter = trpc
                 },
             });
         },
+    })
+    .query('getUserFriends', {
+        input: z.object({
+            userId: z.string(),
+        }),
+        async resolve({ input }) {
+            return await prisma.user.findFirst({
+                where: {
+                    id: input.userId,
+                },
+                select: {
+                    friends: {
+                        select: {
+                            name: true,
+                            id: true,
+                            image: true,
+                        },
+                    },
+                },
+            });
+        },
     });

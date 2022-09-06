@@ -33,7 +33,7 @@ const UserModal = ({ user, onClose, show }: Props) => {
     );
     return (
         <>
-            <div className="rounded modal fade fixed top-8 left-1/2 -translate-x-1/2 overflow-clip w-1/2 p-4 shadow-black shadow-lg bg-gray-800 border-2 border-red-500 ease-out ">
+            <div className="rounded modal fade fixed top-8 left-1/2 -translate-x-1/2 overflow-clip w-1/2 p-4 shadow-lg bg-gray-800 border-2 border-red-500 ease-out ">
                 <div className="flex flex-col">
                     {user && (
                         <div>

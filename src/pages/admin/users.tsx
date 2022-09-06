@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
 import { useState } from 'react';
 import UserModal from '../../components/admin/UserModal';
+import Table from '../../components/Table';
 import { trpc } from '../../utils/trpc';
 
 const Profile = () => {
@@ -23,37 +24,11 @@ const Profile = () => {
     };
     return (
         <>
-            <div className="overflow-x-auto mt-12 relative sm:rounded-lg">
-                <table className="w-full text-sm text-left text-gray-300">
-                    <thead className="text-xs uppercase bg-gray-800 text-gray-400">
-                        <tr>
-                            {Object.keys(data[0] ?? {}).map((key) => (
-                                <th key={key} className="py-3 px-6">
-                                    {key}
-                                </th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((user, i) => (
-                            <tr
-                                key={i}
-                                className="border-b bg-gray-700 border-gray-600 cursor-pointer hover:bg-gray-600"
-                            >
-                                {Object.values(user).map((val, i) => (
-                                    <td
-                                        className="py-4 px-6"
-                                        key={i}
-                                        onClick={() => handleRowClick(user.id)}
-                                    >
-                                        {val?.toString()}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            <Table
+                headers={Object.keys(data[0] ?? {})}
+                items={data}
+                onRowClick={handleRowClick}
+            />
             {selectedUser && (
                 <UserModal
                     show={isOpen}
