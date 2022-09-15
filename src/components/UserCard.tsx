@@ -3,9 +3,10 @@ import Image from 'next/image';
 
 type Props = {
     userData: PublicUserData;
+    action?: () => JSX.Element;
 };
 
-const UserCard = ({ userData }: Props) => {
+const UserCard = ({ userData, action }: Props) => {
     return (
         <div className="border-2 border-gray-300 w-96 overflow-clip rounded p-4 flex justify-between">
             <Image
@@ -15,7 +16,7 @@ const UserCard = ({ userData }: Props) => {
                 width={100}
                 className="rounded-full"
             />
-            <div className="flex flex-col space-y-1">
+            <div className="flex flex-col space-y-1 justify-between">
                 <div className="flex">
                     {userData.isAdmin ? (
                         <div className="mr-2 select-none">👑</div>
@@ -25,6 +26,7 @@ const UserCard = ({ userData }: Props) => {
                 <div className="self-end text-gray-400 italic">
                     {userData.username}
                 </div>
+                {action && <div className="self-end">{action()}</div>}
             </div>
         </div>
     );

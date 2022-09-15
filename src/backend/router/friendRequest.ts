@@ -4,6 +4,20 @@ import { prisma } from '../../db/client';
 
 export const friendRequestRouter = trpc
     .router()
+    .mutation('create', {
+        input: z.object({
+            userId: z.string(),
+            requestorId: z.string(),
+        }),
+        async resolve({ input }) {
+            return await prisma.friendRequest.create({
+                data: {
+                    userId: input.userId,
+                    requestorId: input.requestorId,
+                },
+            });
+        },
+    })
     .mutation('accept', {
         input: z.object({ friendRequestId: z.number() }),
         async resolve({ input }) {
@@ -14,7 +28,7 @@ export const friendRequestRouter = trpc
                 },
                 select: {
                     userId: true,
-                    friendId: true,
+                    requestorId: true,
                 },
             });
             if (!response) return false;
@@ -26,13 +40,13 @@ export const friendRequestRouter = trpc
                 },
                 data: {
                     friends: {
-                        connect: [{ id: response.friendId }],
+                        connect: [{ id: response.requestorId }],
                     },
                 },
             });
             await prisma.user.update({
                 where: {
-                    id: response.friendId,
+                    id: response.requestorId,
                 },
                 data: {
                     friends: {
@@ -59,5 +73,17 @@ export const friendRequestRouter = trpc
                     id: input.friendRequestId,
                 },
             });
+        },
+    })
+    .query('exists', {
+        input: z.object({ userId: z.string(), requestorId: z.string() }),
+        async resolve({ input }) {
+            const resp = await prisma.friendRequest.findFirst({
+                where: {
+                    userId: input.userId,
+                    requestorId: input.requestorId,
+                },
+            });
+            return !!resp;
         },
     });
