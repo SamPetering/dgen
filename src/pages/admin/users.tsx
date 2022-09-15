@@ -27,7 +27,7 @@ const Users = () => {
     return (
         <>
             <Table
-                headers={Object.keys(data[0] ?? {})}
+                headers={['id', 'name', 'email']}
                 items={data}
                 onRowClick={handleRowClick}
             />
