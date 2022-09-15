@@ -6,14 +6,16 @@ import UserModal from '../../components/admin/UserModal';
 import Table from '../../components/Table';
 import { trpc } from '../../utils/trpc';
 
-const Profile = () => {
+const Users = () => {
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
     const [isOpen, setIsOpen] = useState(false);
     const { data, isLoading } = trpc.useQuery(['users.get-all']);
     const userMutation = trpc.useMutation(['user.getUser']);
     if (isLoading || !data) return <div>loading...</div>;
-    const handleRowClick = async (userId: string) => {
-        const result = await userMutation.mutateAsync({ userId });
+    const handleRowClick = async (userId: string | number) => {
+        const result = await userMutation.mutateAsync({
+            userId: userId.toString(),
+        });
         if (result) {
             setSelectedUser(result);
             setIsOpen(true);
@@ -40,7 +42,7 @@ const Profile = () => {
     );
 };
 
-export default Profile;
+export default Users;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const session = await getSession(context);

@@ -1,17 +1,19 @@
 interface MinTableItem {
-    id: string;
+    id: string | number;
 }
 
 interface TableProps<T extends MinTableItem> {
     items: T[];
     headers: string[];
-    onRowClick?: (id: string) => void;
+    onRowClick?: (id: string | number) => void;
+    rightAction?: (id: string | number) => JSX.Element;
 }
 
 export default function Table<T extends MinTableItem>({
     headers,
     items,
     onRowClick,
+    rightAction,
 }: TableProps<T>) {
     return (
         <div className="overflow-x-auto mt-4 relative sm:rounded-lg">
@@ -22,19 +24,30 @@ export default function Table<T extends MinTableItem>({
                             {header}
                         </th>
                     ))}
+                    {rightAction && (
+                        <th key="spacer" className="py-3 px-6 h-full" />
+                    )}
                 </thead>
                 <tbody>
-                    {items.map((item, i) => (
+                    {items.map(({ id, ...itemNoId }, i) => (
                         <tr
                             className="border-b bg-gray-700 border-gray-600 cursor-pointer hover:bg-gray-600"
                             key={i}
-                            onClick={() => onRowClick?.(item.id)}
+                            onClick={() => onRowClick?.(id)}
                         >
-                            {Object.values(item).map((val, i) => (
+                            {Object.values(itemNoId).map((val, i) => (
                                 <td className="py-4 px-6" key={i}>
                                     {val?.toString()}
                                 </td>
                             ))}
+                            {rightAction && (
+                                <td
+                                    className="py-4 px-6"
+                                    key={`rightAction${i}`}
+                                >
+                                    {rightAction(id)}
+                                </td>
+                            )}
                         </tr>
                     ))}
                 </tbody>

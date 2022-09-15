@@ -37,20 +37,22 @@ model Session {
 }
 
 model User {
-  id              String       @id @default(cuid())
-  name            String?
-  username        String?      @unique
-  email           String?      @unique
-  emailVerified   DateTime?
-  image           String?
-  created_ts      DateTime     @default(now())
-  accounts        Account[]
-  sessions        Session[]
-  role            Role         @default(USER)
-  profile         UserProfile?
-  checkins        Checkin[]
-  friends         User[]       @relation("UserFriends") //many-to-many self relation
-  friendsRelation User[]       @relation("UserFriends")
+  id                    String          @id @default(cuid())
+  name                  String?
+  username              String?         @unique
+  email                 String?         @unique
+  emailVerified         DateTime?
+  image                 String?
+  created_ts            DateTime        @default(now())
+  accounts              Account[]
+  sessions              Session[]
+  role                  Role            @default(USER)
+  profile               UserProfile?
+  checkins              Checkin[]
+  friends               User[]          @relation("UserFriends") //many-to-many self relation
+  friendsRelation       User[]          @relation("UserFriends")
+  friendRequests        FriendRequest[] @relation("User")
+  friendRequestRelation FriendRequest[] @relation("FriendRequestRelation")
 }
 
 enum Role {
@@ -82,4 +84,13 @@ model Checkin {
   created_ts DateTime @default(now())
   weight     Int
   image      String?
+}
+
+model FriendRequest {
+  id         Int      @id @default(autoincrement())
+  created_ts DateTime @default(now())
+  user       User     @relation(name: "User", fields: [userId], references: [id])
+  userId     String
+  friend     User     @relation(name: "FriendRequestRelation", fields: [friendId], references: [id])
+  friendId   String
 }

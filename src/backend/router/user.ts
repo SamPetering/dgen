@@ -2,6 +2,8 @@ import * as trpc from '@trpc/server';
 import { prisma } from '../../db/client';
 import * as z from 'zod';
 
+const userIdInput = z.object({ userId: z.string() });
+
 export const userRouter = trpc
     .router()
     .mutation('updateProfile', {
@@ -43,9 +45,7 @@ export const userRouter = trpc
         },
     })
     .mutation('getUser', {
-        input: z.object({
-            userId: z.string(),
-        }),
+        input: userIdInput,
         async resolve({ input }) {
             return await prisma.user.findFirst({
                 where: {
@@ -54,10 +54,28 @@ export const userRouter = trpc
             });
         },
     })
+    .query('getUserProfile', {
+        input: userIdInput,
+        async resolve({ input }) {
+            return await prisma.user.findFirst({
+                where: {
+                    id: input.userId,
+                },
+                select: {
+                    name: true,
+                    id: true,
+                    friends: true,
+                    friendRequests: true,
+                    checkins: true,
+                    image: true,
+                    username: true,
+                    email: true,
+                },
+            });
+        },
+    })
     .query('getUserFriends', {
-        input: z.object({
-            userId: z.string(),
-        }),
+        input: userIdInput,
         async resolve({ input }) {
             return await prisma.user.findFirst({
                 where: {
@@ -69,6 +87,24 @@ export const userRouter = trpc
                             name: true,
                             id: true,
                             image: true,
+                        },
+                    },
+                },
+            });
+        },
+    })
+    .query('getUserFriendRequests', {
+        input: userIdInput,
+        async resolve({ input }) {
+            return await prisma.friendRequest.findMany({
+                where: {
+                    userId: input.userId,
+                },
+                select: {
+                    id: true,
+                    friend: {
+                        select: {
+                            name: true,
                         },
                     },
                 },
