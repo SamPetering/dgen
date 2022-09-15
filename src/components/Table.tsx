@@ -37,7 +37,7 @@ export default function Table<T extends MinTableItem>({
                         >
                             {Object.values(itemNoId).map((val, i) => (
                                 <td className="py-4 px-6" key={i}>
-                                    {val?.toString()}
+                                    {val as string}
                                 </td>
                             ))}
                             {rightAction && (
