@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { getSession } from 'next-auth/react';
 import { GetServerSideProps } from 'next';
 import { prisma } from '../../db/client';

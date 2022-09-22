@@ -1,7 +1,5 @@
 import { GetServerSideProps } from 'next';
 import { signIn, getSession } from 'next-auth/react';
-import { useState } from 'react';
-import PrimaryInput from '../components/PrimaryInput';
 
 const Login = ({}) => {
     const btnStyle =
