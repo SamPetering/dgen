@@ -16,7 +16,7 @@ export default function Table<T extends MinTableItem>({
     rightAction,
 }: TableProps<T>) {
     return (
-        <div className="overflow-x-auto mt-4 relative sm:rounded-lg">
+        <div className="overflow-x-auto relative sm:rounded-lg">
             <table className="w-full text-sm text-left text-gray-300">
                 <thead className="text-xs uppercase bg-gray-800 text-gray-400">
                     {headers.map((header) => (
@@ -31,7 +31,7 @@ export default function Table<T extends MinTableItem>({
                 <tbody>
                     {items.map(({ id, ...itemNoId }, i) => (
                         <tr
-                            className="border-b bg-gray-700 border-gray-600 cursor-pointer hover:bg-gray-600"
+                            className="border-b bg-gray-700 border-gray-600"
                             key={i}
                             onClick={() => onRowClick?.(id)}
                         >
@@ -42,7 +42,7 @@ export default function Table<T extends MinTableItem>({
                             ))}
                             {rightAction && (
                                 <td
-                                    className="py-4 px-6"
+                                    className="py-4 px-6 flex justify-end"
                                     key={`rightAction${i}`}
                                 >
                                     {rightAction(id)}

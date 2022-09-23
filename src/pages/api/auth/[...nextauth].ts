@@ -16,6 +16,7 @@ export default NextAuth({
         async session({ session, user }) {
             session.user.role = user.role;
             session.user.id = user.id;
+            session.user.username = user.username;
             return session;
         },
     },
