@@ -17,8 +17,8 @@ export default function Table<T extends MinTableItem>({
 }: TableProps<T>) {
     return (
         <div className="overflow-x-auto relative sm:rounded-lg">
-            <table className="w-full text-sm text-left text-gray-300">
-                <thead className="text-xs uppercase bg-gray-800 text-gray-400">
+            <table className="w-full text-sm text-left text-slate-300">
+                <thead className="text-xs uppercase bg-slate-800 text-slate-400">
                     {headers.map((header) => (
                         <th key={header} className="py-3 px-6">
                             {header}
@@ -31,7 +31,7 @@ export default function Table<T extends MinTableItem>({
                 <tbody>
                     {items.map(({ id, ...itemNoId }, i) => (
                         <tr
-                            className="border-b bg-gray-700 border-gray-600"
+                            className="border-b bg-slate-700 border-slate-600"
                             key={i}
                             onClick={() => onRowClick?.(id)}
                         >

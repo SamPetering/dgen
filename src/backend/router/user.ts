@@ -6,20 +6,24 @@ const userIdInput = z.object({ userId: z.string() });
 
 export const userRouter = trpc
     .router()
-    .mutation('updateProfile', {
+    .mutation('upsertProfile', {
         input: z.object({
-            userId: z.string({
-                required_error: 'User Id is required',
-            }),
-            age: z.number({
-                required_error: 'Age is required',
-            }),
+            userId: z.string(),
+            age: z.number().optional(),
             height: z.number().optional(),
             weight: z.number().optional(),
         }),
         async resolve({ input }) {
-            return await prisma.userProfile.create({
-                data: {
+            return await prisma.userProfile.upsert({
+                where: {
+                    userId: input.userId,
+                },
+                update: {
+                    age: input.age,
+                    height: input.height,
+                    weight: input.weight,
+                },
+                create: {
                     userId: input.userId,
                     age: input.age,
                     height: input.height,
@@ -50,26 +54,6 @@ export const userRouter = trpc
             return await prisma.user.findFirst({
                 where: {
                     id: input.userId,
-                },
-            });
-        },
-    })
-    .query('getUserProfile', {
-        input: userIdInput,
-        async resolve({ input }) {
-            return await prisma.user.findFirst({
-                where: {
-                    id: input.userId,
-                },
-                select: {
-                    name: true,
-                    id: true,
-                    friends: true,
-                    friendRequests: true,
-                    checkins: true,
-                    image: true,
-                    username: true,
-                    email: true,
                 },
             });
         },
@@ -107,6 +91,21 @@ export const userRouter = trpc
                             name: true,
                         },
                     },
+                },
+            });
+        },
+    })
+    .query('getUserProfile', {
+        input: userIdInput,
+        async resolve({ input }) {
+            return await prisma.userProfile.findFirst({
+                where: {
+                    userId: input.userId,
+                },
+                select: {
+                    age: true,
+                    height: true,
+                    weight: true,
                 },
             });
         },

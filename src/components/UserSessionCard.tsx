@@ -7,7 +7,7 @@ type Props = {
 
 const UserCard = ({ session }: Props) => {
     return (
-        <div className="border-2 border-gray-300 w-full overflow-clip rounded p-4 flex justify-between">
+        <div className="border-2 border-slate-300 w-full overflow-clip rounded-lg p-4 flex justify-between">
             <Image
                 alt="user image"
                 src={session.user.image ?? ''}
@@ -22,7 +22,7 @@ const UserCard = ({ session }: Props) => {
                     ) : null}
                     <p className="font-bold">{session.user.name}</p>
                 </div>
-                <div className="self-end text-gray-400 italic">
+                <div className="self-end text-slate-400 italic">
                     username: {session.user.username}
                 </div>
             </div>

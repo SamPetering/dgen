@@ -8,7 +8,7 @@ type Props = {
 
 const UserCard = ({ userData, action }: Props) => {
     return (
-        <div className="border-2 border-gray-300 w-96 overflow-clip rounded p-4 flex justify-between">
+        <div className="border-2 border-slate-300 w-96 overflow-clip rounded p-4 flex justify-between">
             <Image
                 alt="user image"
                 src={userData.image ?? ''}
@@ -23,7 +23,7 @@ const UserCard = ({ userData, action }: Props) => {
                     ) : null}
                     <p className="font-bold">{userData.name}</p>
                 </div>
-                <div className="self-end text-gray-400 italic">
+                <div className="self-end text-slate-400 italic">
                     {userData.username}
                 </div>
                 {action && <div className="self-end">{action()}</div>}

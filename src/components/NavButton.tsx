@@ -8,7 +8,7 @@ type NavButtonProps = {
 
 export const NavButton = ({ text, linkTo }: NavButtonProps) => (
     <Link href={linkTo}>
-        <a className="font-bold h-full flex items-center px-4 text-2xl text-white hover:text-gray-100 hover:bg-yellow-600">
+        <a className="font-bold h-full flex items-center px-4 text-2xl text-white hover:text-slate-100 hover:bg-yellow-600">
             {text}
         </a>
     </Link>
